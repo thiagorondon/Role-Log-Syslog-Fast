@@ -1,9 +1,4 @@
 #!/usr/bin/env perl
-#
-# Aware TI, 2010, http://www.aware.com.br
-# Thiago Rondon <thiago@aware.com.br>
-#
-
 
 {
     package ExampleLog;
@@ -14,15 +9,22 @@
     use Moose;
     with 'MooseX::Log::Syslog::Fast';
 
+    sub BUILD {
+        my $self = shift;
+        $self->_hostname('/var/run/syslog');
+        $self->_name('Example');
+    }
+
     sub test {
         my $self = shift;
         $self->log('foo');
     }
+    
 }
 
 my $obj = new ExampleLog;
 
-$obj->log("foo");
+$obj->test;
 
 
 
