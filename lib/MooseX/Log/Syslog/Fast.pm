@@ -4,6 +4,8 @@ package MooseX::Log::Syslog::Fast;
 use Moose::Role;
 use Log::Syslog::Fast ':all';
 
+our $VERSION = '0.1';
+
 has '_proto' => (
     is      => 'rw',
     isa     => 'Int',
