@@ -1,70 +1,73 @@
 
-
 package MooseX::Log::Syslog::Fast;
 
 use Moose::Role;
 use Log::Syslog::Fast ':all';
 
-our $VERSION = '0.01';
-
-has 'proto' => (
+has '_proto' => (
     is      => 'rw',
     isa     => 'Int',
     default => LOG_UNIX
 );
 
-has 'hostname' => (
+has '_hostname' => (
     is      => 'rw',
     isa     => 'Str',
-    default => '/dev/log',
+    default => '/dev/log'
 );
 
-has 'port' => (
+has '_port' => (
     is      => 'rw',
     isa     => 'Int',
     default => 514
 );
 
-has 'facility' => (
+has '_facility' => (
     is      => 'rw',
     isa     => 'Int',
     default => LOG_LOCAL0
 );
 
-has 'severity' => (
+has '_severity' => (
     is      => 'rw',
     isa     => 'Int',
     default => LOG_INFO
 );
 
-has 'sender' => (
+has '_sender' => (
     is      => 'rw',
     isa     => 'Str',
     default => 'localhost'
 );
 
-has 'name' => (
+has '_name' => (
     is      => 'rw',
     isa     => 'Str',
     default => 'MooseX-Log-Syslog-Fast'
 );
 
-has 'logger' => (
+has '_logger' => (
     is      => 'ro',
     isa     => 'Log::Syslog::Fast',
     lazy    => 1,
     default => sub { 
         my $self = shift;
         return Log::Syslog::Fast->new(
-            $self->proto, $self->hostname, $self->port,
-            $self->facility, $self->severity, $self->sender, 
-            $self->name); 
+            $self->_proto, $self->_hostname, $self->_port,
+            $self->_facility, $self->_severity, $self->_sender, 
+            $self->_name); 
     } 
 );
 
+sub BUILD { 
+    my $self = shift;
+    $self->_hostname('/var/run/syslog') if -r '/var/run/syslog';
+}
+
 sub log { 
     my ($self, $msg, $time) = @_;
-    return $time ? $self->logger->send($msg, $time) : $self->logger->send($msg);
+    return $time 
+        ? $self->_logger->send($msg, $time) : $self->_logger->send($msg);
 }
 
 1;
