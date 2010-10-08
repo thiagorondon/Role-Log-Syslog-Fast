@@ -7,7 +7,7 @@
     use lib "$Bin/lib";
 
     use Moose;
-    with 'MooseX::Log::Syslog::Fast';
+    with 'Role::Log::Syslog::Fast';
 
     sub BUILD {
         my $self = shift;

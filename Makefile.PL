@@ -1,8 +1,9 @@
 
 use inc::Module::Install '0.01';
 
-name 'MooseX-Log-Syslog-Fast';
-all_from 'lib/MooseX/Log/Syslog/Fast.pm';
+name 'Role-Log-Syslog-Fast';
+all_from 'lib/Role/Log/Syslog/Fast.pm';
+license 'perl';
 
 build_requires 'Test::More';
 

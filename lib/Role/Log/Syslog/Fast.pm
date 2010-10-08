@@ -1,10 +1,10 @@
 
-package MooseX::Log::Syslog::Fast;
+package Role::Log::Syslog::Fast;
 
 use Moose::Role;
 use Log::Syslog::Fast ':all';
 
-our $VERSION = '0.1';
+our $VERSION = '0.11';
 
 has '_proto' => (
     is      => 'rw',
@@ -80,11 +80,8 @@ MooseX::Log::Syslog::Fast - A Logging role for L<Moose> on L<Log::Syslog::Fast>
     {
         package ExampleLog;
 
-        use FindBin qw($Bin);
-        use lib "$Bin/lib";
-
         use Moose;
-        with 'MooseX::Log::Syslog::Fast';
+        with 'Role::Log::Syslog::Fast';
 
         sub BUILD {
             my $self = shift;

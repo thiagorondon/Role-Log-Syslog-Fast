@@ -1,18 +1,15 @@
 
 =head1 NAME
 
-MooseX::Log::Syslog::Fast - A Logging role for L<Moose> on L<Log::Syslog::Fast>
+Role::Log::Syslog::Fast - A Logging role for Moose on Log::Syslog::Fast.
 
 =head1 SYNOPSIS
 
     {
         package ExampleLog;
 
-        use FindBin qw($Bin);
-        use lib "$Bin/lib";
-
         use Moose;
-        with 'MooseX::Log::Syslog::Fast';
+        with 'Role::Log::Syslog::Fast';
 
         sub BUILD {
             my $self = shift;
@@ -41,7 +38,7 @@ L<Log::Syslog::Fast>, L<Log::Syslog>, L<Moose>
 
 =head1 BUGS AND LIMITATIONS
 
-Please report any bugs or feature requests to bug-moosex-log-syslog-fast@rt.cpan.org, or through the web interface at http://rt.cpan.org.
+Please report any bugs or feature requests to bug-role-log-syslog-fast@rt.cpan.org, or through the web interface at http://rt.cpan.org.
 
 Or come bother us in #moose on irc.perl.org.
 

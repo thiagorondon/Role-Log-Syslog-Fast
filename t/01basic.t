@@ -7,7 +7,7 @@ use Test::More tests => 9;
     package Basic::Log::Test;
 
     use Moose;
-    with 'MooseX::Log::Syslog::Fast';
+    with 'Role::Log::Syslog::Fast';
 
     1;
 }
