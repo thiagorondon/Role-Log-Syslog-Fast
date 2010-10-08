@@ -71,7 +71,7 @@ __END__
 
 =head1 NAME
 
-MooseX::Log::Syslog::Fast - A Logging role for L<Moose> on <Log::Syslog::Fast>
+MooseX::Log::Syslog::Fast - A Logging role for L<Moose> on L<Log::Syslog::Fast>
 
 =head1 SYNOPSIS
 
@@ -103,7 +103,7 @@ MooseX::Log::Syslog::Fast - A Logging role for L<Moose> on <Log::Syslog::Fast>
 
 =head1 DESCRIPTION
 
-A logging role building a very lightweight wrapper to <Log::Syslog::Fast> for use with L<Moose> classes.
+A logging role building a very lightweight wrapper to L<Log::Syslog::Fast> for use with L<Moose> classes.
 
 =head1 SEE ALSO
 
