@@ -4,7 +4,7 @@ package Role::Log::Syslog::Fast;
 use Moose::Role;
 use Log::Syslog::Fast ':all';
 
-our $VERSION = '0.11';
+our $VERSION = '0.12';
 
 has '_proto' => (
     is      => 'rw',
