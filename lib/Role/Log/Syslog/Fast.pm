@@ -1,10 +1,13 @@
 
 package Role::Log::Syslog::Fast;
 
+use strict;
 use Moose::Role;
 use Log::Syslog::Fast ':all';
 
-our $VERSION = '0.12';
+# ABSTRACT: A Logging role for L<Moose> on L<Log::Syslog::Fast>
+
+# VERSION
 
 has '_proto' => (
     is      => 'rw',
@@ -15,7 +18,8 @@ has '_proto' => (
 has '_hostname' => (
     is      => 'rw',
     isa     => 'Str',
-    default => '/dev/log'
+    lazy    => 1,
+    default => sub { -f '/dev/log' ? '/dev/log' : '/dev/klog' }
 );
 
 has '_port' => (
@@ -52,18 +56,18 @@ has '_logger' => (
     is      => 'ro',
     isa     => 'Log::Syslog::Fast',
     lazy    => 1,
-    default => sub { 
+    default => sub {
         my $self = shift;
         return Log::Syslog::Fast->new(
             $self->_proto, $self->_hostname, $self->_port,
-            $self->_facility, $self->_severity, $self->_sender, 
-            $self->_name); 
-    } 
+            $self->_facility, $self->_severity, $self->_sender,
+            $self->_name);
+    }
 );
 
-sub log { 
+sub log {
     my ($self, $msg, $time) = @_;
-    return $time 
+    return $time
         ? $self->_logger->send($msg, $time) : $self->_logger->send($msg);
 }
 
@@ -93,7 +97,7 @@ MooseX::Log::Syslog::Fast - A Logging role for L<Moose> on L<Log::Syslog::Fast>
             my $self = shift;
             $self->log('foo');
         }
-    
+
     }
 
     my $obj = new ExampleLog;
@@ -103,6 +107,12 @@ MooseX::Log::Syslog::Fast - A Logging role for L<Moose> on L<Log::Syslog::Fast>
 =head1 DESCRIPTION
 
 A logging role building a very lightweight wrapper to L<Log::Syslog::Fast> for use with L<Moose> classes.
+
+=head1 METHOD
+
+=head2 log
+
+(message, [time])
 
 =head1 SEE ALSO
 

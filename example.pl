@@ -1,6 +1,9 @@
 #!/usr/bin/env perl
 
+use strict;
+
 {
+
     package ExampleLog;
 
     use FindBin qw($Bin);
@@ -19,15 +22,12 @@
         my $self = shift;
         $self->log('foo');
     }
-    
+
 }
 
 my $obj = new ExampleLog;
 
 $obj->test;
-
-
-
 
 1;
 
