@@ -1,11 +1,12 @@
 
 package Role::Log::Syslog::Fast;
 
+use strict;
 use Moose::Role;
 use Log::Syslog::Fast 0.55 ':all';
 use List::Util qw(first);
 
-# ABSTRACT: MooseX::Log::Syslog::Fast - A Logging role for Moose on Log::Syslog::Fast
+# ABSTRACT: A Logging role for Moose on Log::Syslog::Fast
 # VERSION
 
 has '_proto' => (
@@ -19,7 +20,7 @@ has '_hostname' => (
     isa     => 'Str',
     lazy    => 1,
     default => sub {
-        my $options = [ '/dev/log', '/dev/klog' ];
+        my $options = [ '/dev/log', '/dev/klog', '/var/run/syslog' ];
         my $found = first {-r} @$options;
         return $found if $found;
     }
@@ -95,7 +96,7 @@ __END__
             my $self = shift;
             $self->log('foo');
         }
-    
+
     }
 
     my $obj = new ExampleLog;
@@ -105,6 +106,12 @@ __END__
 =head1 DESCRIPTION
 
 A logging role building a very lightweight wrapper to L<Log::Syslog::Fast> for use with L<Moose> classes.
+
+=head1 METHOD
+
+=head2 log
+
+(message, [time])
 
 =head1 SEE ALSO
 
