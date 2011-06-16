@@ -1,10 +1,12 @@
 
-package MooseX::Log::Syslog::Fast;
+package Role::Log::Syslog::Fast;
 
 use Moose::Role;
 use Log::Syslog::Fast ':all';
+use List::Util qw(first);
 
-our $VERSION = '0.1';
+# ABSTRACT: MooseX::Log::Syslog::Fast - A Logging role for Moose on Log::Syslog::Fast
+# VERSION
 
 has '_proto' => (
     is      => 'rw',
@@ -15,7 +17,12 @@ has '_proto' => (
 has '_hostname' => (
     is      => 'rw',
     isa     => 'Str',
-    default => '/dev/log'
+    lazy    => 1,
+    default => sub {
+        my $options = [ '/dev/log', '/dev/klog' ];
+        my $found = first {-r} @$options;
+        return $found if $found;
+    }
 );
 
 has '_port' => (
@@ -52,39 +59,31 @@ has '_logger' => (
     is      => 'ro',
     isa     => 'Log::Syslog::Fast',
     lazy    => 1,
-    default => sub { 
+    default => sub {
         my $self = shift;
         return Log::Syslog::Fast->new(
-            $self->_proto, $self->_hostname, $self->_port,
-            $self->_facility, $self->_severity, $self->_sender, 
-            $self->_name); 
-    } 
+            $self->_proto,    $self->_hostname, $self->_port, $self->_facility,
+            $self->_severity, $self->_sender,   $self->_name
+        );
+    }
 );
 
-sub log { 
-    my ($self, $msg, $time) = @_;
-    return $time 
-        ? $self->_logger->send($msg, $time) : $self->_logger->send($msg);
+sub log {
+    my ( $self, $msg, $time ) = @_;
+    return $time ? $self->_logger->send( $msg, $time ) : $self->_logger->send($msg);
 }
 
 1;
 
 __END__
 
-=head1 NAME
-
-MooseX::Log::Syslog::Fast - A Logging role for L<Moose> on L<Log::Syslog::Fast>
-
 =head1 SYNOPSIS
 
     {
         package ExampleLog;
 
-        use FindBin qw($Bin);
-        use lib "$Bin/lib";
-
         use Moose;
-        with 'MooseX::Log::Syslog::Fast';
+        with 'Role::Log::Syslog::Fast';
 
         sub BUILD {
             my $self = shift;
