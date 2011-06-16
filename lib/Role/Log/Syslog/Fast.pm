@@ -2,7 +2,7 @@
 package Role::Log::Syslog::Fast;
 
 use Moose::Role;
-use Log::Syslog::Fast ':all';
+use Log::Syslog::Fast 0.55 ':all';
 use List::Util qw(first);
 
 # ABSTRACT: MooseX::Log::Syslog::Fast - A Logging role for Moose on Log::Syslog::Fast
